@@ -26,7 +26,7 @@ def scaler(image: ee.Image) -> ee.Image:
     return image
 
 
-def cloud_mask(image: ee.Image, all_classifications:bool = True) -> ee.Image:
+def cloud_mask(image: ee.Image, mask_snow:bool = False) -> ee.Image:
     """
     Mask pixels classifed as clouds from QA_PIXEL band.
 
@@ -35,8 +35,8 @@ def cloud_mask(image: ee.Image, all_classifications:bool = True) -> ee.Image:
     image : ee.Image
         Image to mask.
 
-    all_classifications : bool (optional)
-        If `True` mask all values not classified as clear pixel.
+    mask_snow : bool (optional)
+        If `True` mask pixels classified as snow.
         If `False` mask only pixels classified as cloud.
 
     Returns
@@ -51,14 +51,9 @@ def cloud_mask(image: ee.Image, all_classifications:bool = True) -> ee.Image:
     shadow = qa.bitwiseAnd((1 << 4)).eq(0)
     snow = qa.bitwiseAnd((1 << 5)).eq(0)
 
-    if all_classifications:
-        image = (
-            image.updateMask(cirrus)
-                 .updateMask(cloud)
-                 .updateMask(shadow)
-                 .updateMask(snow)
-        )
-    else:
-        image = image.updateMask(cloud)
+    image = image.updateMask(cirrus).updateMask(cloud).updateMask(shadow)
+
+    if mask_snow:
+        image = image.updateMask(snow)
 
     return image
