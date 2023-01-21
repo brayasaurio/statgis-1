@@ -1,5 +1,6 @@
 # Folder where we test algorithms before make the functions
 lab/
+tests/
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
