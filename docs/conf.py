@@ -21,7 +21,7 @@ extensions = [
     "sphinx.ext.napoleon",
     "sphinx.ext.viewcode",
     "pydata_sphinx_theme",
-    "sphinx-material",
+    "sphinx_material",
 ]
 autoapi_dirs = ["../src"]
 
@@ -35,4 +35,40 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
 #
-html_theme = "sphinx-material"
+html_theme = "pydata_sphinx_theme"
+# html_theme = "sphinx_material"
+
+html_theme_options = {
+    # "nav_title": "StatGIS Python Package 1.0.1",
+
+    # "color_primary": "blue",
+    # "color_accent": "light-blue",
+
+    # "repo_url": "https://github.com/srnarvaez/statgis",
+    # "repo_name": "StatGIS",
+
+    # "globaltoc_depth": 3,
+    # "nav_links": [],
+    # "globaltoc_collapse": True,
+    # "globaltoc_includehidden": True,
+    "icon_links": [
+    {
+        "name": "GitHub",
+        "url": "https://github.com/srnarvaez/statgis",
+        "icon": "fa-brands fa-github",
+        "type": "fontawesome",
+    },
+    {
+        "name": "PyPI",
+        "url": "https://pypi.org/project/statgis",
+        "icon": "fa-solid fa-box",
+        "type": "fontawesome",
+    },
+    {
+        "name": "Instagram",
+        "url": "https://www.instagram.com/statgisorg/",
+        "icon": "fa-brands fa-instagram",
+        "type": "fontawesome",
+    },
+   ]
+}
