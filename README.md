@@ -1,6 +1,6 @@
-# statgis
+# StatGIS Python Package
 
-Tools for improve work with geospatial data in Python
+StatGIS help to the users to process and analyse satellite images in Google Earth Engine.
 
 ## Installation
 
@@ -10,7 +10,8 @@ $ pip install statgis
 
 ## Usage
 
-StatGIS help to the users to process and analyse satellite images in Google Earth Engine.
+In this package you could find function to scale optical images, classify images,
+characterize shorelines and much more.
 
 ```python
 # Example: mask clouds and scale to reflectance values

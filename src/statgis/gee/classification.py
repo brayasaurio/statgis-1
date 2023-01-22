@@ -129,7 +129,7 @@ def clean_boolean_classification(
     false_class_treshold: float,
 ) -> ee.Image:
     """
-    Clean boolean coverage classification counting the neighbors pixels dnd filter 
+    Clean boolean coverage classification counting the neighbors pixels and filter
     those which surpass their respective thresholds.
 
     Parameters

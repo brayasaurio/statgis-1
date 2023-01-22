@@ -14,21 +14,27 @@ def corr_matrix(
 ) -> pd.DataFrame:
     """
     Calculate the pearson correlation matrix of the variables in a dataframe.
+
     Parameters
     ----------
     data : pd.DataFrame
         Dataframe with the variables to evaluate their correlation.
-    variables : ArrayLike | None = None
+
+    variables : ArrayLike | None (optional)
         The variables of interest, if it is not defined, all variables in
         the dataframe will be evaluated.
-    half : bool = False
+
+    half : bool (optional)
         If True, only show the corerlation of the first half of the matrix,
         excluding the repeated correlation.
-    hide_insignifcants : bool = False
+
+    hide_insignifcants : bool (optional)
         If True, hide all the correlation with a p-value greater than the
         significant threshold.
-    siginificant_threshold : float = 0.05
+
+    siginificant_threshold : float (optional)
         Threshold of significant correlation.
+
     returns
     -------
     corr : pd.DataFrame
