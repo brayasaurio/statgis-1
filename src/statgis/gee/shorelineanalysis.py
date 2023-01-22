@@ -1,4 +1,4 @@
-"""Extract shoreline from images"""
+"""Detect changes in coastlines"""
 import ee
 
 

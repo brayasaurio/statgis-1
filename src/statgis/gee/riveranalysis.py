@@ -1,4 +1,4 @@
-"""Characterize sediment plume from satellite images"""
+"""Analyse rivers with sattelite images"""
 import ee
 
 ee.Initialize()
