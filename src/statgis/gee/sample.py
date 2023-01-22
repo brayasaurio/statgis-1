@@ -33,7 +33,7 @@ def sample_image(
     Returns
     -------
     """
-    image = image.select("band")
+    image = image.select(band)
 
     if isinstance(geom, ee.geometry.Geometry):
         geom = ee.FeatureCollection([ee.Feature(geom, {"id": 0})])
