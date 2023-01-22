@@ -4,8 +4,13 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-# -- Project information -----------------------------------------------------
+import statgis
 
+v = statgis.__version__
+
+autodoc_mock_imports = ["ee"]
+
+# -- Project information -----------------------------------------------------
 project = u"statgis"
 copyright = u"2023, Sebástian Narváez-Salcedo, Brayan Navarro-Londoño"
 author = u"Sebástian Narváez-Salcedo, Brayan Navarro-Londoño"
@@ -34,7 +39,7 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
+html_title = f"StatGIS Python Package ({v})"
 html_theme = "pydata_sphinx_theme"
 # html_theme = "sphinx_material"
 
