@@ -10,7 +10,21 @@ $ pip install statgis
 
 ## Usage
 
-- TODO
+StatGIS help to the users to process and analyse satellite images in Google Earth Engine.
+
+```python
+# Example: mask clouds and scale to reflectance values
+import ee
+from statgis.gee import landsat_functions
+
+ee.Initialize()
+
+image_collection = (
+    ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+      .map(landsat_functions.cloud_mask)
+      .map(landsat_functions.scaler)
+)
+```
 
 ## Contributing
 
