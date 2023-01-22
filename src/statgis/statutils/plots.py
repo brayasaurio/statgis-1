@@ -2,6 +2,7 @@
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+from typing import Union
 from matplotlib.axes import Axes
 from matplotlib.ticker import NullLocator
 from numpy.typing import ArrayLike
@@ -18,7 +19,7 @@ def plot_corr_matrix(
     show_colorbar: bool = False,
     palette: str = "Spectral",
     text_color: str = "black",
-    ax: Axes | None = None,
+    ax: Union[Axes, None] = None,
 ) -> Axes:
     """
     Calculate the pearson correlation matrix of the variables in a dataframe.

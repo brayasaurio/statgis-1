@@ -1,5 +1,5 @@
 """Reduce images in a region of interest"""
-from typing import Sequence
+from typing import Sequence, Union
 import ee
 import pandas as pd
 
@@ -11,8 +11,8 @@ def zonal_statistics_image(
     image: ee.Image,
     geom: ee.Geometry,
     scale: float,
-    bands: Sequence[str] | str = "all",
-    reducer: ee.Reducer | str = "all",
+    bands: Union[Sequence[str], str] = "all",
+    reducer: Union[ee.Reducer, str] = "all",
     tile_scale: int = 16,
 ) -> pd.DataFrame:
     """
@@ -77,8 +77,8 @@ def zonal_statistics_collection(
     image_collection: ee.ImageCollection,
     geom: ee.Geometry,
     scale: float,
-    bands: Sequence[str] | str = "all",
-    reducer: ee.Reducer | str = "all",
+    bands: Union[Sequence[str], str] = "all",
+    reducer: Union[ee.Reducer, str] = "all",
     tile_scale: int = 16,
 ) -> pd.DataFrame:
     """
