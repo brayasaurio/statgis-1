@@ -1,5 +1,7 @@
 # StatGIS Python Package
 
+![PyPI](https://img.shields.io/pypi/v/statgis) ![PyPI - Python Version](https://img.shields.io/pypi/pyversions/statgis?color=yellow) [![Documentation Status](https://readthedocs.org/projects/statgis/badge/?version=latest)](https://statgis.readthedocs.io/en/latest/?badge=latest)
+
 StatGIS help to the users to process and analyse satellite images in Google Earth Engine.
 
 ## Installation
