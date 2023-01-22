@@ -1,6 +1,6 @@
 [tool.poetry]
 name = "statgis"
-version = "1.0.4"
+version = "1.0.5"
 description = "Tools for improve work with geospatial data in Python"
 authors = ["Sebástian Narváez-Salcedo", "Brayan Navarro-Londoño"]
 license = "MIT"
