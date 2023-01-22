@@ -32,30 +32,30 @@ def plot_corr_matrix(
         The variables of interest, if it is not defined, all variables in
         the dataframe will be evaluated.
 
-    half : bool = False
+    half : bool (optional)
         If True, only show the corerlation of the first half of the matrix,
         excluding the repeated correlation.
 
-    hide_insignifcants : bool = False
+    hide_insignifcants : bool (optional)
         If True, hide all the correlation with a p-value greater than the
         significant threshold.
 
-    significant_threshold : float = 0.05
+    significant_threshold : float (optional)
         Threshold of significant correlation.
 
-    show_labels : bool = True
+    show_labels : bool (optional)
         Show the correlation value.
 
-    show_colorbar : bool = False
+    show_colorbar : bool (optional)
         Show colorbar
 
-    palette : str = Spectral
+    palette : str (optional)
         Color palette for correlation plot.
 
-    text_color : str = black
+    text_color : str (optional)
         Color of text correlation labels.
 
-    ax : matplotlib.axes.Axes | None = None
+    ax : matplotlib.axes.Axes | None (optional)
         Axes to draw the correlation matrix.
     returns
     -------
