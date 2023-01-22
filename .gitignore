@@ -1,3 +1,7 @@
+# files to build package
+poetry.lock
+pyproject.toml
+
 # Tokens file
 .token
 
