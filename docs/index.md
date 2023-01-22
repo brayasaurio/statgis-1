@@ -4,6 +4,6 @@
 ```{toctree}
 :hidden:
 changelog.md
-examples.md
+<!-- examples.md -->
 autoapi/index
 ```
