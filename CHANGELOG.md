@@ -1,6 +1,8 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.0.1 (22/01/2023)
+- refactor: change submodules names.
 
 ## v1.0.0 (22/01/2023)
 
