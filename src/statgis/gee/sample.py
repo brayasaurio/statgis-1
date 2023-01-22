@@ -53,7 +53,7 @@ def sample_collection(
     geom: ee.Geometry,
     scale: float,
     band: str,
-) -> list[ArrayLike]:
+) -> list:
     """
     This function sample all images in an image collection applying the sample_image
     function to all images.

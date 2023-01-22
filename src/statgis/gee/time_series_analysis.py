@@ -260,7 +260,7 @@ def calculate_anomalies(
 
 def time_series_processing(
     image_collection: ee.ImageCollection, band: str
-) -> tuple[ee.ImageCollection, ee.ImageCollection]:
+) -> list:
     """
     This function take an ee.ImageCollection and calculate the linear trend, the
     detrended component, the seasonal mean and anomalies for the selected band.

@@ -14,7 +14,7 @@ def hypsometric_curve(
     scale: float,
     band: str,
     bins: int = 100,
-) -> list[ArrayLike]:
+) -> list:
     """
     Calculate the cumulative area and comulative height from a catchment for the
     hypsometric curve.
