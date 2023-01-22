@@ -261,6 +261,14 @@ tomli = {version = "*", optional = true, markers = "python_full_version <= \"3.1
 toml = ["tomli"]
 
 [[package]]
+name = "css-html-js-minify"
+version = "2.5.5"
+description = "CSS HTML JS Minifier"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[[package]]
 name = "cycler"
 version = "0.11.0"
 description = "Composable style cycles"
@@ -1565,6 +1573,21 @@ optional = false
 python-versions = ">=3.5"
 
 [[package]]
+name = "python-slugify"
+version = "7.0.0"
+description = "A Python slugify application that also handles Unicode"
+category = "dev"
+optional = false
+python-versions = ">=3.7"
+
+[package.dependencies]
+text-unidecode = ">=1.3"
+Unidecode = {version = ">=1.1.1", optional = true, markers = "extra == \"unidecode\""}
+
+[package.extras]
+unidecode = ["Unidecode (>=1.1.1)"]
+
+[[package]]
 name = "pytz"
 version = "2022.7.1"
 description = "World timezone definitions, modern and historical"
@@ -1800,6 +1823,24 @@ dotnet = ["sphinxcontrib-dotnetdomain"]
 go = ["sphinxcontrib-golangdomain"]
 
 [[package]]
+name = "sphinx-material"
+version = "0.0.35"
+description = "Material sphinx theme"
+category = "dev"
+optional = false
+python-versions = ">=3.6"
+
+[package.dependencies]
+beautifulsoup4 = "*"
+css-html-js-minify = "*"
+lxml = "*"
+python-slugify = {version = "*", extras = ["unidecode"]}
+sphinx = ">=2.0"
+
+[package.extras]
+dev = ["black (==19.10b0)"]
+
+[[package]]
 name = "sphinx-rtd-theme"
 version = "1.1.1"
 description = "Read the Docs theme for Sphinx"
@@ -1974,6 +2015,14 @@ docs = ["myst-parser", "pydata-sphinx-theme", "sphinx"]
 test = ["pre-commit", "pytest (>=7.0)", "pytest-timeout"]
 
 [[package]]
+name = "text-unidecode"
+version = "1.3"
+description = "The most basic Text::Unidecode port"
+category = "dev"
+optional = false
+python-versions = "*"
+
+[[package]]
 name = "tinycss2"
 version = "1.2.1"
 description = "A tiny CSS parser"
@@ -2113,7 +2162,7 @@ testing = ["flake8 (<5)", "func-timeout", "jaraco.functools", "jaraco.itertools"
 [metadata]
 lock-version = "1.1"
 python-versions = "<3.12,>=3.8"
-content-hash = "6ef7f34f1a2216d2970eaa56d3c29cc00e6f984898fd6e249a1ddf2cc5512c50"
+content-hash = "d4625e3bfb613e44eb0d410a296f679812205adebba8a21f68e9839f9389b4a0"
 
 [metadata.files]
 alabaster = [
@@ -2382,6 +2431,10 @@ coverage = [
     {file = "coverage-7.0.5-cp39-cp39-win_amd64.whl", hash = "sha256:949844af60ee96a376aac1ded2a27e134b8c8d35cc006a52903fc06c24a3296f"},
     {file = "coverage-7.0.5-pp37.pp38.pp39-none-any.whl", hash = "sha256:b9727ac4f5cf2cbf87880a63870b5b9730a8ae3a4a360241a0fdaa2f71240ff0"},
     {file = "coverage-7.0.5.tar.gz", hash = "sha256:051afcbd6d2ac39298d62d340f94dbb6a1f31de06dfaf6fcef7b759dd3860c45"},
+]
+css-html-js-minify = [
+    {file = "css-html-js-minify-2.5.5.zip", hash = "sha256:4a9f11f7e0496f5284d12111f3ba4ff5ff2023d12f15d195c9c48bd97013746c"},
+    {file = "css_html_js_minify-2.5.5-py2.py3-none-any.whl", hash = "sha256:3da9d35ac0db8ca648c1b543e0e801d7ca0bab9e6bfd8418fee59d5ae001727a"},
 ]
 cycler = [
     {file = "cycler-0.11.0-py3-none-any.whl", hash = "sha256:3a27e95f763a428a739d2add979fa7494c912a32c17c4c38c4d5f082cad165a3"},
@@ -3322,6 +3375,10 @@ python-json-logger = [
     {file = "python-json-logger-2.0.4.tar.gz", hash = "sha256:764d762175f99fcc4630bd4853b09632acb60a6224acb27ce08cd70f0b1b81bd"},
     {file = "python_json_logger-2.0.4-py3-none-any.whl", hash = "sha256:3b03487b14eb9e4f77e4fc2a023358b5394b82fd89cecf5586259baed57d8c6f"},
 ]
+python-slugify = [
+    {file = "python-slugify-7.0.0.tar.gz", hash = "sha256:7a0f21a39fa6c1c4bf2e5984c9b9ae944483fd10b54804cb0e23a3ccd4954f0b"},
+    {file = "python_slugify-7.0.0-py2.py3-none-any.whl", hash = "sha256:003aee64f9fd955d111549f96c4b58a3f40b9319383c70fad6277a4974bbf570"},
+]
 pytz = [
     {file = "pytz-2022.7.1-py2.py3-none-any.whl", hash = "sha256:78f4f37d8198e0627c5f1143240bb0206b8691d8d7ac6d78fee88b78733f8c4a"},
     {file = "pytz-2022.7.1.tar.gz", hash = "sha256:01a0681c4b9684a28304615eba55d1ab31ae00bf68ec157ec3708a8182dbbcd0"},
@@ -3534,6 +3591,10 @@ sphinx-autoapi = [
     {file = "sphinx-autoapi-2.0.1.tar.gz", hash = "sha256:cdf47968c20852f4feb0ccefd09e414bb820af8af8f82fab15a24b09a3d1baba"},
     {file = "sphinx_autoapi-2.0.1-py2.py3-none-any.whl", hash = "sha256:8ed197a0c9108770aa442a5445744c1405b356ea64df848e8553411b9b9e129b"},
 ]
+sphinx-material = [
+    {file = "sphinx_material-0.0.35-py3-none-any.whl", hash = "sha256:a62a0a48d4c32edc260f9bdbca658e7d149beb10e1d338848b0076bb13be0775"},
+    {file = "sphinx_material-0.0.35.tar.gz", hash = "sha256:27f0f1084aa0201b43879aef24a0521b78dc8df4942b003a4e7d79ab11515852"},
+]
 sphinx-rtd-theme = [
     {file = "sphinx_rtd_theme-1.1.1-py2.py3-none-any.whl", hash = "sha256:31faa07d3e97c8955637fc3f1423a5ab2c44b74b8cc558a51498c202ce5cbda7"},
     {file = "sphinx_rtd_theme-1.1.1.tar.gz", hash = "sha256:6146c845f1e1947b3c3dd4432c28998a1693ccc742b4f9ad7c63129f0757c103"},
@@ -3620,6 +3681,10 @@ tabulate = [
 terminado = [
     {file = "terminado-0.17.1-py3-none-any.whl", hash = "sha256:8650d44334eba354dd591129ca3124a6ba42c3d5b70df5051b6921d506fdaeae"},
     {file = "terminado-0.17.1.tar.gz", hash = "sha256:6ccbbcd3a4f8a25a5ec04991f39a0b8db52dfcd487ea0e578d977e6752380333"},
+]
+text-unidecode = [
+    {file = "text-unidecode-1.3.tar.gz", hash = "sha256:bad6603bb14d279193107714b288be206cac565dfa49aa5b105294dd5c4aab93"},
+    {file = "text_unidecode-1.3-py2.py3-none-any.whl", hash = "sha256:1311f10e8b895935241623731c2ba64f4c455287888b18189350b67134a822e8"},
 ]
 tinycss2 = [
     {file = "tinycss2-1.2.1-py3-none-any.whl", hash = "sha256:2b80a96d41e7c3914b8cda8bc7f705a4d9c49275616e886103dd839dfc847847"},
