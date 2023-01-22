@@ -9,7 +9,7 @@ ee.Initialize()
 
 def sample_image(
     image: ee.Image,
-    geom: ee.Geometry | ee.Feature | ee.FeatureCollection,
+    geom: ee.Geometry,
     scale: float,
     band: str,
 ) -> ArrayLike:
@@ -21,7 +21,7 @@ def sample_image(
     image : ee.Image
         Image to sample.
 
-    geom : ee.Geometry | ee.Feature | ee.FeatureCollection
+    geom : ee.Geometry
         Region of interest.
 
     scale : float
@@ -34,11 +34,6 @@ def sample_image(
     -------
     """
     image = image.select(band)
-
-    if isinstance(geom, ee.geometry.Geometry):
-        geom = ee.FeatureCollection([ee.Feature(geom, {"id": 0})])
-    elif isinstance(geom, ee.feature.Feature):
-        geom = ee.FeatureCollection(geom)
 
     try:
         sample = image.sampleRegions(collection=geom, scale=scale, geometries=False)
@@ -55,7 +50,7 @@ def sample_image(
 
 def sample_collection(
     image_collection: ee.ImageCollection,
-    geom: ee.Geometry | ee.Feature | ee.FeatureCollection,
+    geom: ee.Geometry,
     scale: float,
     band: str,
 ) -> list[ArrayLike]:

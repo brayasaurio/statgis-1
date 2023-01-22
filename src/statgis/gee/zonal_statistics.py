@@ -9,7 +9,7 @@ ee.Initialize()
 
 def zonal_statistics_image(
     image: ee.Image,
-    geom: ee.Geometry | ee.Feature | ee.FeatureCollection,
+    geom: ee.Geometry,
     scale: float,
     bands: Sequence[str] | str = "all",
     reducer: ee.Reducer | str = "all",
@@ -75,7 +75,7 @@ def zonal_statistics_image(
 
 def zonal_statistics_collection(
     image_collection: ee.ImageCollection,
-    geom: ee.Geometry | ee.Feature | ee.FeatureCollection,
+    geom: ee.Geometry,
     scale: float,
     bands: Sequence[str] | str = "all",
     reducer: ee.Reducer | str = "all",
