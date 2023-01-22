@@ -1,6 +1,9 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.0.4 (22/01/2023)
+- fix minor errors.
+
 ## v1.0.2 (22/01/2023)
 - fix minor errors.
 
