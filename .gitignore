@@ -1,3 +1,6 @@
+# Tokens file
+.token
+
 # Folder where we test algorithms before make the functions
 lab/
 tests/
