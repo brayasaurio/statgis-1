@@ -1,13 +1,14 @@
 """Submodule to ease some statisticals"""
 import numpy as np
 import pandas as pd
+from typing import Union
 from scipy.stats import pearsonr
 from numpy.typing import ArrayLike
 
 
 def corr_matrix(
     data: pd.DataFrame,
-    variables: ArrayLike | None = None,
+    variables: Union[ArrayLike, None] = None,
     half: bool = False,
     hide_insignificants: bool = False,
     singificant_threshold: float = 0.05,

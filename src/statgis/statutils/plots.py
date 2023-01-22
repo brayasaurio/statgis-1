@@ -11,7 +11,7 @@ from .stats import corr_matrix
 
 def plot_corr_matrix(
     data: pd.DataFrame,
-    variables: ArrayLike | None = None,
+    variables: Union[ArrayLike, None] = None,
     half: bool = False,
     hide_insignificants: bool = False,
     significant_threshold: float = 0.05,
