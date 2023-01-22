@@ -96,7 +96,7 @@ def plume_characterization(
 
     image = image.addBands(
         image.expression(
-            "(b('plume_blue') + b('plume_green') + b('plume_red'))/3"
+            "(b('plume_blue') + b('plume_green') + b('plume_red'))"
         ).rename("plume"),
         None,
         True,
