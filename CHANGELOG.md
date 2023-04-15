@@ -1,6 +1,10 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.0.6 (15/04/2023)
+- Add resample function to **TSA** module.
+- Add **utils** module with function to count band numbers and get the covered area. 
+
 ## v1.0.5 (22/01/2023)
 - fix minor errors.
 
@@ -25,12 +29,12 @@
 - **Shoreline Analysis module**:
     - Extract shoreline from classified images.
 - Sample module:
-    - Extract data from images in an specified region.
+    - Extract data from images in a specified region.
 - Sentinel Functions module:
     - Scale bands and mask clouds in images.
 - **Terrain Analysis module**:
     - Calculate hypsometric curve for a DEM in a catchment area.
-- **Time Series Anlysis Module**:
-    - Procces image collection to perform time series analysis from the images.
+- **Time Series Analysis Module**:
+    - Process image collection to perform time series analysis from the images.
 - Zonal Statistics module:
-    - Reduce images in an specified region.
+    - Reduce images in a specified region.
