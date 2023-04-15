@@ -126,7 +126,7 @@ def clean_boolean_classification(
     scale: float,
     band: str,
     true_class_threshold: float,
-    false_class_treshold: float,
+    false_class_threshold: float,
 ) -> ee.Image:
     """
     Clean boolean coverage classification counting the neighbors pixels and filter
@@ -146,7 +146,7 @@ def clean_boolean_classification(
     true_class_threshold : float
         Threshold for true values to conserve an entity.
 
-    false_class_treshold : float
+    false_class_threshold : float
         Threshold for false values to conserve an entity.
 
     Returns
@@ -157,7 +157,7 @@ def clean_boolean_classification(
     image = image.select(band).toInt()
 
     connected_false = ee.Number(true_class_threshold).divide(scale).int()
-    connected_true = ee.Number(false_class_treshold).divide(scale).int()
+    connected_true = ee.Number(false_class_threshold).divide(scale).int()
 
     false_filled = (
         image.addBands(image)
