@@ -21,8 +21,8 @@ def extract_dates(image_collection: ee.ImageCollection) -> pd.DatetimeIndex:
     """
     dates = (
         image_collection.reduceColumns(ee.Reducer.toList(), ["system:time_start"])
-                        .get("list")
-                        .getInfo()
+        .get("list")
+        .getInfo()
     )
 
     dates = pd.DatetimeIndex(pd.to_datetime(dates, unit="ms"))
@@ -47,12 +47,13 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
     image_collection : ee.ImageCollection
         Image collection with the Raw data, Time, Trend and seasonal variation bands.
     """
+
     def time_func(image: ee.Image) -> ee.Image:
         """Calculate time band for linear regression"""
         time = (
             image.metadata("system:time_start")
-                 .divide(1000*60*60*24*365)
-                 .rename("time")
+            .divide(1000 * 60 * 60 * 24 * 365)
+            .rename("time")
         )
 
         return image.addBands(time)
@@ -68,10 +69,10 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
         """Calculate linear regression"""
         pred = (
             image.select("time")
-                 .multiply(fitted.select("scale"))
-                 .add(fitted.select("offset"))
-                 .rename("predicted")
-                 .toFloat()
+            .multiply(fitted.select("scale"))
+            .add(fitted.select("offset"))
+            .rename("predicted")
+            .toFloat()
         )
 
         return image.addBands(pred)
@@ -94,6 +95,7 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
     return image_collection
 
 
+# TODO: change the reduce_by_year function with the resample function from JS
 def reduce_by_year(
     image_collection: ee.ImageCollection,
     reducer: ee.Reducer,
@@ -124,11 +126,11 @@ def reduce_by_year(
     """
     annual_collection = []
 
-    for year in range(start, end+1):
+    for year in range(start, end + 1):
         img = (
             image_collection.filter(ee.Filter.calendarRange(year, year, "year"))
-                            .reduce(reducer)
-                            .set("year", year)
+            .reduce(reducer)
+            .set("year", year)
         )
 
         annual_collection.append(img)
@@ -137,8 +139,8 @@ def reduce_by_year(
 
 
 def reduce_by_month(
-    image_collection: ee.ImageCollection,
-    reducer: ee.Reducer,
+        image_collection: ee.ImageCollection,
+        reducer: ee.Reducer,
 ) -> ee.ImageCollection:
     """
     Reduce image collection to monthly statistic.
@@ -161,9 +163,9 @@ def reduce_by_month(
     for month in range(1, 13):
         img = (
             image_collection.filter(ee.Filter.calendarRange(month, month, "month"))
-                            .reduce(reducer)
-                            .rename("seasonal")
-                            .set("month", month)
+            .reduce(reducer)
+            .rename("seasonal")
+            .set("month", month)
         )
 
         monthly_collection.append(img)
@@ -172,7 +174,7 @@ def reduce_by_month(
 
 
 def calculate_anomalies(
-    image_collection: ee.ImageCollection, monthly_mean: ee.ImageCollection
+        image_collection: ee.ImageCollection, monthly_mean: ee.ImageCollection
 ) -> ee.ImageCollection:
     """
     Calculate the anomalies of a ImageCollection subtracting the monthly mean values.
@@ -191,6 +193,7 @@ def calculate_anomalies(
     anomalies : ee.ImageCollection
         ImageCollection with seasonal means added and anomalies calculated.
     """
+
     def calc_anomaly(image: ee.Image) -> ee.Image:
         """Function for calculate anomalies."""
         anomaly = image.expression(
@@ -239,16 +242,16 @@ def calculate_anomalies(
 
     anomalies = (
         m01.merge(m02)
-           .merge(m03)
-           .merge(m04)
-           .merge(m05)
-           .merge(m06)
-           .merge(m07)
-           .merge(m08)
-           .merge(m09)
-           .merge(m10)
-           .merge(m11)
-           .merge(m12)
+        .merge(m03)
+        .merge(m04)
+        .merge(m05)
+        .merge(m06)
+        .merge(m07)
+        .merge(m08)
+        .merge(m09)
+        .merge(m10)
+        .merge(m11)
+        .merge(m12)
     )
 
     anomalies = anomalies.sort("system:time_start")
@@ -258,7 +261,7 @@ def calculate_anomalies(
 
 
 def time_series_processing(
-    image_collection: ee.ImageCollection, band: str
+        image_collection: ee.ImageCollection, band: str
 ) -> tuple[ee.ImageCollection, ee.ImageCollection]:
     """
     This function take an ee.ImageCollection and calculate the linear trend, the
