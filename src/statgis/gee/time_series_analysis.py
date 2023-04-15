@@ -2,18 +2,17 @@
 import ee
 import pandas as pd
 
-
 ee.Initialize()
 
 
-def extract_dates(image_collection: ee.ImageCollection) -> pd.Series:
+def extract_dates(image_collection: ee.ImageCollection) -> pd.DatetimeIndex:
     """
     Extract dates from all images in an image collection.
 
     Parameters
     ----------
     image_collection : ee.ImageCollection
-        Colletion of image.
+        Collection of image.
 
     Returns
     -------
@@ -33,7 +32,7 @@ def extract_dates(image_collection: ee.ImageCollection) -> pd.Series:
 
 def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection:
     """
-    Calculate the linear trend and stational variation to an image collection.
+    Calculate the linear trend and seasonal variation to an image collection.
 
     Parameters
     ----------
@@ -46,7 +45,7 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
     Returns
     -------
     image_collection : ee.ImageCollection
-        Image collection with the Raw data, Time, Trend and Stational variation bands.
+        Image collection with the Raw data, Time, Trend and seasonal variation bands.
     """
     def time_func(image: ee.Image) -> ee.Image:
         """Calculate time band for linear regression"""
@@ -78,13 +77,13 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
         return image.addBands(pred)
 
     def stat_func(image: ee.Image) -> ee.Image:
-        """Calculate the stational component"""
+        """Calculate the seasonal component"""
         stat = image.expression(
             "band - pred + mean",
             {
-                "band":image.select(band),
-                "pred":image.select("predicted"),
-                "mean":mean,
+                "band": image.select(band),
+                "pred": image.select("predicted"),
+                "mean": mean,
             },
         ).rename("detrended").toFloat()
 
@@ -110,7 +109,7 @@ def reduce_by_year(
         Image collection to reduce.
 
     reducer : ee.Reducer
-        Reducer to apply throught the image collection.
+        To apply through the image collection.
 
     start : int
         First year.
@@ -150,7 +149,7 @@ def reduce_by_month(
         Image collection to reduce.
 
     reducer : ee.Reducer
-        Reducer to apply throught image collection.
+        To apply through image collection.
 
     Returns
     -------
@@ -190,7 +189,7 @@ def calculate_anomalies(
     Returns
     -------
     anomalies : ee.ImageCollection
-        ImageCollection with stational means added and anomalies calcualted.
+        ImageCollection with seasonal means added and anomalies calculated.
     """
     def calc_anomaly(image: ee.Image) -> ee.Image:
         """Function for calculate anomalies."""
@@ -260,13 +259,13 @@ def calculate_anomalies(
 
 def time_series_processing(
     image_collection: ee.ImageCollection, band: str
-) -> list:
+) -> tuple[ee.ImageCollection, ee.ImageCollection]:
     """
     This function take an ee.ImageCollection and calculate the linear trend, the
     detrended component, the seasonal mean and anomalies for the selected band.
     To calculate the linear trend the function use `ee.Reducer.linearFit()`, next,
     calculate the detrended component subtracting the linear_fitted values to the
-    original series and restoring its mean, the monthly means are calculeted by
+    original series and restoring its mean, the monthly means are calculated by
     selecting all the image in the specific month and reduce it by its mean, finally,
     subtracting the monthly means to the detrended component anomalies are obtained.
     This function work as a "wrapper" function of `trend()`, `reduce_by_month()` and
@@ -275,7 +274,7 @@ def time_series_processing(
     Parameters
     ----------
     image_collection : ee.ImageCollection
-        Image collection to proces.
+        Image collection to process.
 
     band : str
         Name of the band of interest.
@@ -283,7 +282,7 @@ def time_series_processing(
     Returns
     -------
     data : ee.ImageCollection
-        Image collection with the raw data, the linear trend, deternded component,
+        Image collection with the raw data, the linear trend, detrended component,
         seasonal mean and the anomalies.
 
     monthly_mean : ee.ImageCollection
