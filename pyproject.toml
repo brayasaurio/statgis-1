@@ -2,7 +2,7 @@
 name = "statgis"
 version = "1.0.5"
 description = "Tools for improve work with geospatial data in Python"
-authors = ["Sebástian Narváez-Salcedo", "Brayan Navarro-Londoño"]
+authors = ["Sebástian Narváez-Salcedo <sanarvaezstatgis@gmail.com>", "Brayan Navarro-Londoño <brnavarrostatgis@gmail.com>"]
 license = "MIT"
 readme = "README.md"
 
