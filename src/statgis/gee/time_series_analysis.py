@@ -95,86 +95,115 @@ def trend(image_collection: ee.ImageCollection, band: str) -> ee.ImageCollection
     return image_collection
 
 
-# TODO: change the reduce_by_year function with the resample function from JS
-def reduce_by_year(
+def resample(
     image_collection: ee.ImageCollection,
     reducer: ee.Reducer,
-    start: int,
-    end: int,
+    scale: str,
 ) -> ee.ImageCollection:
     """
-    Resample image collection to annual reduced collection.
+    Function to resample an Image Collection to a fixed timestamp.
 
     Parameters
     ----------
     image_collection : ee.ImageCollection
-        Image collection to reduce.
+        Image Collection to resample.
 
     reducer : ee.Reducer
-        To apply through the image collection.
+        To aggregate the images
 
-    start : int
-        First year.
-
-    end : int
-        Last year.
+    scale : str
+        Time scale to aggregate the image, must be one from:
+        - annual.
+        - monthly.
+        - monthly-stat.
+        - monthly-stat-repeated.
 
     Returns
     -------
-    annual_collection : ee.ImageCollection
-        Image collection reduced to annual frequency.
+    final_collection : ee.ImageCollection
+        Collection resampled.
     """
-    annual_collection = []
 
-    for year in range(start, end + 1):
-        img = (
-            image_collection.filter(ee.Filter.calendarRange(year, year, "year"))
-            .reduce(reducer)
-            .set("year", year)
-        )
+    dates = image_collection.reduceColumns(
+        reducer=ee.Reducer.min().combine(ee.Reducer.max(), sharedInputs=True),
+        selectors=["system:time_start"],
+    ).getInfo()
 
-        annual_collection.append(img)
+    for key, val in dates.items():
+        dates[key] = ee.Date(val).get("year").getInfo()
 
-    return ee.ImageCollection(annual_collection)
+    months = range(1, 13)
+    years = range(dates["min"], dates["max"] + 1)
 
+    band_names = image_collection.first().bandNames()
 
-def reduce_by_month(
-        image_collection: ee.ImageCollection,
-        reducer: ee.Reducer,
-) -> ee.ImageCollection:
-    """
-    Reduce image collection to monthly statistic.
+    final_collection = []
 
-    Parameters
-    ----------
-    image_collection : ee.ImageCollection
-        Image collection to reduce.
+    if scale == "annual":
+        for year in years:
+            date = ee.Date.fromYMD(year, 1, 1).millis()
 
-    reducer : ee.Reducer
-        To apply through image collection.
+            image = (
+                image_collection.filter(ee.Filter.calendarRange(year, year, "year"))
+                .reduce(reducer, 4)
+                .set("year", year)
+                .set("system:time_start", date)
+            )
 
-    Returns
-    -------
-    monthly_collection : ee.ImageCollection
-        Image collection reduced to monthly frequency.
-    """
-    monthly_collection = []
+            final_collection.append(image)
 
-    for month in range(1, 13):
-        img = (
-            image_collection.filter(ee.Filter.calendarRange(month, month, "month"))
-            .reduce(reducer)
-            .rename("seasonal")
-            .set("month", month)
-        )
+    elif scale == "monthly":
+        for year in years:
+            for month in months:
+                date = ee.Date.fromYMD(year, month, 1).millis()
 
-        monthly_collection.append(img)
+                image = (
+                    image_collection.filter(ee.Filter.calendarRange(year, year, "year"))
+                    .filter(ee.Filter.calendarRange(month, month, "month"))
+                    .reduce(reducer, 4)
+                    .set("year", year)
+                    .set("month", month)
+                    .set("system:time_start", date)
+                )
 
-    return ee.ImageCollection(monthly_collection)
+                final_collection.append(image)
+
+    elif scale == "monthly-stat":
+        for month in months:
+            image = (
+                image_collection.filter(ee.Filter.calendarRange(month, month, "month"))
+                .reduce(reducer, 4)
+                .set("month", month)
+            )
+
+            final_collection.append(image)
+
+    elif scale == "monthly-stat-repeated":
+        for year in years:
+            for month in months:
+                date = ee.Date.fromYMD(year, month, 1).millis()
+
+                image = (
+                    image_collection.filter(ee.Filter.calendarRange(month, month, "month"))
+                    .reduce(reducer, 4)
+                    .set("year", year)
+                    .set("month", month)
+                    .set("system:time_start", date)
+                )
+
+                final_collection.append(image)
+
+    else:
+        Exception("ERROR")
+
+    final_collection = ee.ImageCollection(final_collection).map(lambda img: img.rename(band_names))
+
+    return final_collection
 
 
 def calculate_anomalies(
-        image_collection: ee.ImageCollection, monthly_mean: ee.ImageCollection
+    image_collection: ee.ImageCollection,
+    monthly_mean: ee.ImageCollection
 ) -> ee.ImageCollection:
     """
     Calculate the anomalies of a ImageCollection subtracting the monthly mean values.
@@ -186,7 +215,7 @@ def calculate_anomalies(
 
     monthly_mean : ee.ImageCollection
         Image collection with the monthly means of ImageCollection calculated by the
-        `reduce_by_month` function.
+        `resample()` function.
 
     Returns
     -------
@@ -261,7 +290,7 @@ def calculate_anomalies(
 
 
 def time_series_processing(
-        image_collection: ee.ImageCollection, band: str
+    image_collection: ee.ImageCollection, band: str
 ) -> tuple[ee.ImageCollection, ee.ImageCollection]:
     """
     This function take an ee.ImageCollection and calculate the linear trend, the
@@ -271,7 +300,7 @@ def time_series_processing(
     original series and restoring its mean, the monthly means are calculated by
     selecting all the image in the specific month and reduce it by its mean, finally,
     subtracting the monthly means to the detrended component anomalies are obtained.
-    This function work as a "wrapper" function of `trend()`, `reduce_by_month()` and
+    This function work as a "wrapper" function of `trend()`, `resample()` and
     `calc_anomalies()`.
 
     Parameters
@@ -292,7 +321,7 @@ def time_series_processing(
         Image collection with the twelves monthly means calculated.
     """
     trended = trend(image_collection, band)
-    monthly_mean = reduce_by_month(trended.select("detrended"), ee.Reducer.mean())
+    monthly_mean = resample(trended.select("detrended"), ee.Reducer.mean(), "monthly-stat")
     data = calculate_anomalies(trended, monthly_mean)
 
     return data, monthly_mean
