@@ -1,6 +1,10 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.1.0 (16/04/2023)
+- Add `seasonal_decompose` function to **TSA** module.
+- fix minor bugs.
+
 ## v1.0.6 (15/04/2023)
 - Add resample function to **TSA** module.
 - Add **utils** module with function to count band numbers and get the covered area. 
