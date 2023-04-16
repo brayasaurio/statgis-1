@@ -208,7 +208,7 @@ def seasonal_decompose(image_collection: ee.ImageCollection, band: str, restore_
         """Add the anomalies to a detrended image collection"""
         mean_repeated_collection = resample(detrended_collection, ee.Reducer.mean(), "monthly-stat-repeated")
 
-        dates = mean_repeated_collection.reduceColumns(ee.Reducer.toList(), ["system:time_start"]).getInfo()["list"]
+        dates = detrended_collection.reduceColumns(ee.Reducer.toList(), ["system:time_start"]).getInfo()["list"]
 
         final_collection = []
 
