@@ -31,7 +31,7 @@ def zonal_statistics_image(
 
     bands : Sequence | str (optional)
         List, tuple with the bands of interest or, if you only want one band, the name
-        of the band. By default the process takes into consideration all bands.
+        of the band. By default, the process takes into consideration all bands.
 
     reducer : ee.Reducer | str (optional)
         Reducer to apply to the image. By default, image are reduced to its, mean, standard
@@ -43,7 +43,7 @@ def zonal_statistics_image(
     Returns
     -------
     data : pandas.DataFrame
-        DataFrame with all the stats for all spcified bands.
+        DataFrame with all the stats for all specified bands.
     """
     if bands != "all":
         image = image.select(bands)
@@ -87,7 +87,7 @@ def zonal_statistics_collection(
 
     Parameters
     ----------
-    ImageCollection : ee.ImageCollection
+    image_collection : ee.ImageCollection
         Image Collection with the image to reduce.
 
     geom : ee.Geometry
@@ -98,7 +98,7 @@ def zonal_statistics_collection(
 
     bands : Sequence | str (optional)
         List, tuple with the bands of interest or, if you only want one band, the name
-        of the band. By default the process takes into consideration all bands.
+        of the band. By default, the process takes into consideration all bands.
 
     reducer : ee.Reducer | str (optional)
         Reducer to apply to all image. By default, image are reduced to its, mean, standard
@@ -110,7 +110,7 @@ def zonal_statistics_collection(
     Returns
     ------
     data : pandas.DataFrame
-        DataFrame with all the stats for all spcified bands.
+        DataFrame with all the stats for all specified bands.
     """
     if bands != "all":
         image_collection = image_collection.select(bands)
