@@ -99,7 +99,7 @@ def rename_bands(image: ee.Image) -> ee.Image:
         condition=processing_level.eq(1),
         trueCase=prop_toa,
         falseCase=ee.Algorithms.If(
-            condition=sensor_number.eq(5),
+            condition=sensor_number.lte(7),
             trueCase=prop_sr5,
             falseCase=prop_sr8,
         )
