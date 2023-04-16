@@ -6,11 +6,7 @@ import ee
 ee.Initialize()
 
 
-def calculate_covered_area(
-    image: ee.Image,
-    region: Union[ee.geometry, ee.Feature],
-    scale: float,
-) -> ee.Image:
+def calculate_covered_area(image: ee.Image, region: Union[ee.geometry, ee.Feature], scale: float) -> ee.Image:
     """
     Calculate the total covered area by an image in a specific region and add it as an attribute.
 
