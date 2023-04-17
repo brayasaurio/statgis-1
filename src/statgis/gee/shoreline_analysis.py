@@ -17,7 +17,7 @@ def shoreline_characterization(
     Parameters
     ----------
     image : ee.Image
-        Classified image to analyse.
+        Classified image to analyze.
 
     region : ee.Geometry
         Region of interest to clip the image and shorelines.

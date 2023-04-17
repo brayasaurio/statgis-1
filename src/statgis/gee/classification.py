@@ -97,7 +97,7 @@ def vegetation_coverage(
     Returns
     -------
     image : ee.Image
-        Image with vegettaion coverage band classified where vegetation pixels
+        Image with vegetation coverage band classified where vegetation pixels
         are 1 and no-vegetation are 0.
     """
     ndbi = image.expression(
@@ -119,62 +119,3 @@ def vegetation_coverage(
     image = image.addBands(vegetation)
 
     return image
-
-
-def clean_boolean_classification(
-    image: ee.Image,
-    scale: float,
-    band: str,
-    true_class_threshold: float,
-    false_class_threshold: float,
-) -> ee.Image:
-    """
-    Clean boolean coverage classification counting the neighbors pixels and filter
-    those which surpass their respective thresholds.
-
-    Parameters
-    ----------
-    image : ee.Image
-        Boolean classification raster to clean.
-
-    scale : float
-        Image scale to perform the process.
-
-    band : str
-        Band name with the classification.
-
-    true_class_threshold : float
-        Threshold for true values to conserve an entity.
-
-    false_class_threshold : float
-        Threshold for false values to conserve an entity.
-
-    Returns
-    -------
-    filled : ee.Image
-        Boolean classification image cleaned.
-    """
-    image = image.select(band).toInt()
-
-    connected_false = ee.Number(true_class_threshold).divide(scale).int()
-    connected_true = ee.Number(false_class_threshold).divide(scale).int()
-
-    false_filled = (
-        image.addBands(image)
-        .reduceConnectedComponents(ee.Reducer.median(), band, connected_false)
-        .unmask(99)
-        .eq(99)
-        .And(image.neq(0))
-    )
-
-    filled = (
-        false_filled.addBands(false_filled)
-        .reduceConnectedComponents(ee.Reducer.median(), band+"_1", connected_true)
-        .unmask(99)
-        .eq(99)
-        .And(false_filled.neq(1))
-    )
-
-    filled = filled.expression("b(0) == 0 ? 1 : 0").rename(band)
-
-    return filled

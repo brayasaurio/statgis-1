@@ -1,4 +1,4 @@
-"""Analyse rivers with sattelite images"""
+"""Analyze rivers with satellite images"""
 import ee
 
 ee.Initialize()
@@ -21,7 +21,7 @@ def plume_characterization(
         Image to be classified.
 
     sample_region : ee.Geometry
-        Polygon that enclosess a region of the Image that the user indetifies as
+        Polygon that encloses a region of the Image that the user identified as
         river plume.
 
     blue : str

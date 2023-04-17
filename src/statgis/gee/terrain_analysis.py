@@ -16,25 +16,25 @@ def hypsometric_curve(
     bins: int = 100,
 ) -> list:
     """
-    Calculate the cumulative area and comulative height from a catchment for the
+    Calculate the cumulative area and cumulative height from a catchment for the
     hypsometric curve.
 
     Parameters
     ----------
     catchment : ee.Geometry
-        Catchment area to analyse.
+        Catchment area to analyze.
 
     dem : ee.Image
-        Digital elevation model (DEM) to analyse.
+        Digital elevation model (DEM) to analyze.
 
     scale : float
         Scale of DEM.
 
     band : str
-        Band of DEM with elevetaion information.
+        Band of DEM with elevation information.
 
     bins : int
-        Number of bins for cumalitive area an height.
+        Number of bins for cumulative area an height.
 
     Returns
     -------
