@@ -32,6 +32,35 @@ def sample_image(
 
     Returns
     -------
+    data : np.array
+        Array with the sampled values.
+    
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import sample, landsat_functions, time_series_analysis
+
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-76.6854802, 3.3903932, -76.6904802, 3.3953932)
+    
+    landsat_collection = ee.ImageCollection([])
+    for code in ["LT05", "LE07", "LC08", "LC09"]:
+        landsat_collection = landsat_collection.merge(
+            ee.ImageCollection(f"LANDSAT/{code}/C02/T1_L2")
+            .filterBounds(roi)
+            .filterDate("1995-01-01", "2022-12-31")
+            .map(landsat_functions.scaler)
+            .map(landsat_functions.cloud_mask)
+            .map(landsat_functions.rename_bands)
+            .map(lambda img: img.addBands(img.normalizedDifference(["NIR", "RED"]).rename("NDVI")))
+        )
+    
+    image = landsat_collection.mean()
+
+    mean_ndvi_values = sample.sample_image(image, roi, 30, "NDVI")
+    ```
     """
     image = image.select(band)
 
@@ -76,6 +105,33 @@ def sample_collection(
     -------
     data : list
         list of np.array with all the sampled values per image.
+    
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import sample, landsat_functions, time_series_analysis
+
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-76.6854802, 3.3903932, -76.6904802, 3.3953932)
+    
+    landsat_collection = ee.ImageCollection([])
+    for code in ["LT05", "LE07", "LC08", "LC09"]:
+        landsat_collection = landsat_collection.merge(
+            ee.ImageCollection(f"LANDSAT/{code}/C02/T1_L2")
+            .filterBounds(roi)
+            .filterDate("1995-01-01", "2022-12-31")
+            .map(landsat_functions.scaler)
+            .map(landsat_functions.cloud_mask)
+            .map(landsat_functions.rename_bands)
+            .map(lambda img: img.addBands(img.normalizedDifference(["NIR", "RED"]).rename("NDVI")))
+        )
+    
+    annual_ndvi = time_series_analysis.resample(landsat_collection, ee.Reducer.median(), "annual")
+
+    annual_ndvi_values = sample.sample_collection(annual_ndvi, roi, 30, "NDVI")
+    ```
     """
     N = image_collection.size().getInfo()
     ic_list = image_collection.toList(N)

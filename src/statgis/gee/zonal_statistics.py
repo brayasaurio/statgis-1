@@ -44,6 +44,24 @@ def zonal_statistics_image(
     -------
     data : pandas.DataFrame
         DataFrame with all the stats for all specified bands.
+
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import zonal_statistics
+
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-75.2671803, 4.4104561 ,-75.2691803, 4.4124561)
+    mean_precipitation_2022 = (
+        ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY")
+        .filterDate("2022-01-01", "2022-12-31")
+        .mean()
+    )
+
+    stats = zonal_statistics.zonal_statistics_image(mean_precipitation_2022, roi, 30, "precipitation")
+    ```
     """
     if bands != "all":
         image = image.select(bands)
@@ -111,6 +129,22 @@ def zonal_statistics_collection(
     ------
     data : pandas.DataFrame
         DataFrame with all the stats for all specified bands.
+        
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import zonal_statistics
+
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-75.2671803, 4.4104561 ,-75.2691803, 4.4124561)
+    chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("2022-01-01", "2022-12-31")
+
+    daily_mean_precipitation = zonal_statistics.zonal_statistics_collection(
+        chirps, roi, 30, "precipitation", ee.Reducer.mean()
+    )
+    ```
     """
     if bands != "all":
         image_collection = image_collection.select(bands)

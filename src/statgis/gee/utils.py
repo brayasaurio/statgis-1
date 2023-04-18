@@ -25,6 +25,44 @@ def calculate_covered_area(image: ee.Image, region: Union[ee.geometry, ee.Featur
     -------
     image : ee.Image
         Image with covered area attribute
+
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import landsat_functions, utils
+    
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-74.2726232, 4.6486206, -74.2776232, 4.6536206)
+    image = (
+        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+        .map(landsat_functions.scaler)
+        .map(landsat_functions.cloud_mask)
+        .map(landsat_functions.rename_bands)
+        .first()
+    )
+
+    image = utils.calculate_covered_area(image, roi, 30)
+    ```
+
+    Or
+
+    ```python
+    import ee
+    from statgis.gee import landsat_functions, utils
+    
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-74.2726232, 4.6486206, -74.2776232, 4.6536206)
+    image_collection = (
+        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+        .map(landsat_functions.scaler)
+        .map(landsat_functions.cloud_mask)
+        .map(landsat_functions.rename_bands)
+        .map(lambda img: utils.calculate_covered_area(img, roi, 30))
+    )
+    ```
     """
 
     covered_area_list = image.reduceRegion(
@@ -67,6 +105,44 @@ def calculate_band_number(image: ee.Image) -> ee.Image:
     -------
     image : ee.Image
         Image with band number as an attribute.
+
+    Example
+    -------
+    ```python
+    import ee
+    from statgis.gee import landsat_functions, utils
+    
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-74.2726232, 4.6486206, -74.2776232, 4.6536206)
+    image = (
+        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+        .map(landsat_functions.scaler)
+        .map(landsat_functions.cloud_mask)
+        .map(landsat_functions.rename_bands)
+        .first()
+    )
+
+    image = utils.calculate_band_number(image)
+    ```
+
+    Or
+
+    ```python
+    import ee
+    from statgis.gee import landsat_functions, utils
+    
+    ee.Initialize()
+
+    roi = ee.Geometry.BBox(-74.2726232, 4.6486206, -74.2776232, 4.6536206)
+    image_collection = (
+        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+        .map(landsat_functions.scaler)
+        .map(landsat_functions.cloud_mask)
+        .map(landsat_functions.rename_bands)
+        .map(utils.calculate_band_number)
+    )
+    ```
     """
 
     band_number = image.bandNames().size()
