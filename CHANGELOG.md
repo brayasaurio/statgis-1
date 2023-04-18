@@ -1,6 +1,9 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.1.2 (18/04/2023)
+- Fix bugs.
+
 ## v1.1.1 (18/04/2023)
 - Update docs.
 
