@@ -8,7 +8,7 @@ import statgis
 
 v = statgis.__version__
 
-autodoc_mock_imports = ["ee"]
+autodoc_mock_imports = ["ee", "statgis"]
 
 # -- Project information -----------------------------------------------------
 project = u"statgis"
