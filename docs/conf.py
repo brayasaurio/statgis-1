@@ -6,7 +6,7 @@
 
 import statgis
 
-v = statgis.__version__
+v = "1.1.2"
 
 autodoc_mock_imports = ["ee", "statgis"]
 
