@@ -1,6 +1,9 @@
 # Changelog
 
 <!--next-version-placeholder-->
+## v1.1.1 (18/04/2023)
+- Update docs.
+
 ## v1.1.0 (16/04/2023)
 - Add `seasonal_decompose` function to **TSA** module.
 - fix minor bugs.
