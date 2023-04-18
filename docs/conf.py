@@ -4,8 +4,6 @@
 # list see the documentation:
 # https://www.sphinx-doc.org/en/master/usage/configuration.html
 
-import statgis
-
 v = "1.1.2"
 
 autodoc_mock_imports = ["ee", "statgis"]
