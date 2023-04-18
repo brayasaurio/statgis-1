@@ -21,16 +21,11 @@ def extract_dates(image_collection: ee.ImageCollection) -> pd.DatetimeIndex:
 
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import time_series_analysis
-
-    ee.Initialize()
-
-    chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
-
-    dates = time_series_analysis.extract_dates(chirps)
-    ```
+    >>> import ee
+    >>> from statgis.gee import time_series_analysis
+    >>> ee.Initialize()
+    >>> chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
+    >>> dates = time_series_analysis.extract_dates(chirps)
     """
     dates = (
         image_collection.reduceColumns(ee.Reducer.toList(), ["system:time_start"])
@@ -69,18 +64,12 @@ def resample(image_collection: ee.ImageCollection, reducer: ee.Reducer, scale: s
     
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import time_series_analysis
-
-    ee.Initialize()
-
-    chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
-
-    annual_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "annual")
-    ```
+    >>> import ee
+    >>> from statgis.gee import time_series_analysis
+    >>> ee.Initialize()
+    >>> chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
+    >>> annual_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "annual")
     """
-
     dates = image_collection.reduceColumns(
         reducer=ee.Reducer.min().combine(ee.Reducer.max(), sharedInputs=True),
         selectors=["system:time_start"],
@@ -180,17 +169,12 @@ def detrend(image_collection: ee.ImageCollection, band: str, restore_mean: bool 
 
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import time_series_analysis
-
-    ee.Initialize()
-
-    chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
-
-    annual_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "annual")
-    seasonal_precipitation = time_series_analysis.detrend(annual_precipitation, "precipitation")
-    ```
+    >>> import ee
+    >>> from statgis.gee import time_series_analysis
+    >>> ee.Initialize()
+    >>> chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
+    >>> annual_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "annual")
+    >>> seasonal_precipitation = time_series_analysis.detrend(annual_precipitation, "precipitation")
     """
     image_collection = image_collection.map(lambda img: img.addBands(img.metadata("system:time_start").rename("time")))
     image_collection = image_collection.select(["time", band])
@@ -243,17 +227,12 @@ def seasonal_decompose(image_collection: ee.ImageCollection, band: str, restore_
 
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import time_series_analysis
-
-    ee.Initialize()
-
-    chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
-
-    monthly_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "monthly")
-    precipitation_ts = time_series_analysis.seasonal_decompose(monthly_precipitation, "precipitation")
-    ```
+    >>> import ee
+    >>> from statgis.gee import time_series_analysis
+    >>> ee.Initialize()
+    >>> chirps = ee.ImageCollection("UCSB-CHG/CHIRPS/DAILY").filterDate("1985-01-01", "2022-12-31")
+    >>> monthly_precipitation = time_series_analysis.resample(chirps, ee.Reducer.sum(), "monthly")
+    >>> precipitation_ts = time_series_analysis.seasonal_decompose(monthly_precipitation, "precipitation")
     """
     image_collection = detrend(image_collection, band, restore_mean)
 

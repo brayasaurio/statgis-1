@@ -20,37 +20,30 @@ def scaler(image: ee.Image) -> ee.Image:
         
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
+    Scale an image:
 
-    ee.Initialize()
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .first()
+    ... )
+    >>> image = landsat_functions.scaler(image)
 
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        first()
-    )
+    Or scaler all image in a collection:
 
-    image = landsat_functions.scaler(image)
-    ```
-
-    Or
-
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
-
-    ee.Initialize()
-
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image_collection = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        .map(landsat_functions.scaler)
-    )
-    ```
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image_collection = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .map(landsat_functions.scaler)
+    ... )
     """
     optical = image.select("SR_B.").multiply(0.0000275).add(-0.2)
     thermal = image.select("ST_B.*").multiply(0.00341802).add(149)
@@ -80,37 +73,28 @@ def cloud_mask(image: ee.Image, mask_snow: bool = False) -> ee.Image:
         
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .first()
+    ... )
+    >>> image = landsat_functions.cloud_mask(image)
 
-    ee.Initialize()
+    On an image collection: 
 
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        first()
-    )
-
-    image = landsat_functions.cloud_mask(image)
-    ```
-
-    Or
-
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
-
-    ee.Initialize()
-
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image_collection = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        .map(landsat_functions.cloud_mask)
-    )
-    ```
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image_collection = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .map(landsat_functions.cloud_mask)
+    ... )
     """
     qa = image.select("QA_PIXEL")
 
@@ -143,37 +127,30 @@ def rename_bands(image: ee.Image) -> ee.Image:
 
     Example
     -------
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
+    Rename the bands in an image: 
 
-    ee.Initialize()
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .first()
+    ... )
+    >>> image = landsat_functions.rename_bands(image)
 
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        first()
-    )
+    Also we can map the function to an image collection:
 
-    image = landsat_functions.rename_bands(image)
-    ```
-
-    Or
-
-    ```python
-    import ee
-    from statgis.gee import landsat_functions
-
-    ee.Initialize()
-
-    poi = ee.Geometry.Point(-74.8180175, 10.9838119)
-    image_collection = (
-        ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
-        .filterBounds(poi)
-        .map(landsat_functions.rename_bands)
-    )
-    ```
+    >>> import ee
+    >>> from statgis.gee import landsat_functions
+    >>> ee.Initialize()
+    >>> poi = ee.Geometry.Point(-74.8180175, 10.9838119)
+    >>> image_collection = (
+    ...     ee.ImageCollection("LANDSAT/LC09/C02/T1_L2")
+    ...     .filterBounds(poi)
+    ...     .map(landsat_functions.rename_bands)
+    ... )
     """
     prop_toa = ["QA_PIXEL", "QA_RADSAT", "SAA", "SZA", "VAA", "VZA"]
     prop_sr5 = ["SR_ATMOS_OPACITY", "SR_CLOUD_QA", "ST_ATRAN", "ST_CDIST", "ST_DRAD", "ST_EMIS", "ST_EMSD", "ST_QA",
