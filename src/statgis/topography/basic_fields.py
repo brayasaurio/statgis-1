@@ -1,12 +1,4 @@
-import numpy as np
-import pandas as pd
-import geopandas as gpd
-from shapely.geometry import Point
-from math import atan, asin, pi
-import rasterio
-from matplotlib import pyplot as plt
-import matplotlib.dates as mdates
-from rasterio.mask import mask
+from math import atan, pi
 
 def diff_axis_p(axis_coordinate: list) -> list:
     
@@ -16,18 +8,18 @@ def diff_axis_p(axis_coordinate: list) -> list:
     Parameters
     ----------
     axis_coordinate: list 
-        x,y or z, coordinates list
+        x,y or z, coordinates list.
     
     Returns
     -------
     delta_p: list
-        return a list with differences in mesurements 
+        return a list with differences in mesurements.
     """""""""
 
     delta_p = [0]
     for i, _ in enumerate(axis_coordinate):
         if i != 0:
-            delta_p.append(axis_coordinate[i] - axis_coordinate[i-1]) 
+            delta_p.append(axis_coordinate.iloc[i] - axis_coordinate.iloc[i-1]) 
     return delta_p
 
 def diff_date_p(axis_date: list) -> list:
@@ -49,7 +41,7 @@ def diff_date_p(axis_date: list) -> list:
     delta_p = [0]
     for i, _ in enumerate(axis_date):
         if i != 0:
-            delta_p.append((axis_date[i] - axis_date[i-1]).days) 
+            delta_p.append((axis_date.iloc[i] - axis_date.iloc[i-1]).days) 
     return delta_p
 
 def diff_axis_c(axis_coordinate: list) -> list:
@@ -71,10 +63,10 @@ def diff_axis_c(axis_coordinate: list) -> list:
     delta_a = [0]
     for i, _ in enumerate(axis_coordinate):
         if i != 0:
-            delta_a.append(axis_coordinate[i] - axis_coordinate[0]) 
+            delta_a.append(axis_coordinate.iloc[i] - axis_coordinate.iloc[0]) 
     return delta_a
 
-def diff_date_p(axis_date: list) -> list:
+def diff_date_c(axis_date: list) -> list:
 
     """""""""
     Obtain the measurement difference between the all measurements and the first measurments in days. 
@@ -93,7 +85,7 @@ def diff_date_p(axis_date: list) -> list:
     delta_a = [0]
     for i, _ in enumerate(axis_date):
         if i != 0:
-            delta_a.append((axis_date[i] - axis_date[0]).days) 
+            delta_a.append((axis_date.iloc[i] - axis_date.iloc[0]).days) 
     return delta_a
 
 def distance_calculator(dx: float, dy:float) -> float:
